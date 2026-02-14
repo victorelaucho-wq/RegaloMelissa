@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Para Melisa</title>
+  <title>Para Melissa</title>
   <style>
     :root{
       --bg1:#0b1020;
@@ -13,6 +13,7 @@
       --muted:#aab3c7;
       --accent:#ff4d7d;
       --accent2:#ffd1dc;
+      --gold:#f3d7a4;
       --shadow: 0 20px 60px rgba(0,0,0,.35);
       --radius: 18px;
     }
@@ -26,13 +27,14 @@
       overflow:auto;
     }
 
+    /* Background layers */
     .bg{
       position:fixed; inset:0;
       background:
         radial-gradient(1200px 800px at 30% 20%, rgba(255,77,125,.20), transparent 55%),
         radial-gradient(1000px 700px at 70% 30%, rgba(255,209,220,.14), transparent 60%),
         linear-gradient(140deg, var(--bg1), var(--bg2));
-      z-index:-3;
+      z-index:-4;
     }
     .bgPhoto{
       position:fixed; inset:-20px;
@@ -40,16 +42,25 @@
       background-position:center;
       filter: blur(18px) saturate(1.15) contrast(1.05);
       transform: translateY(0px) scale(1.08);
-      opacity:.34;
-      z-index:-4;
+      opacity:.32;
+      z-index:-5;
       will-change: transform;
     }
     .vignette{
       position:fixed; inset:0;
       background: radial-gradient(1200px 900px at 50% 20%, rgba(255,255,255,.08), transparent 60%),
-                  radial-gradient(1000px 800px at 50% 90%, rgba(0,0,0,.50), transparent 60%);
-      z-index:-2;
+                  radial-gradient(1000px 800px at 50% 90%, rgba(0,0,0,.55), transparent 60%);
+      z-index:-3;
       pointer-events:none;
+    }
+
+    /* Petals canvas */
+    canvas#petals{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-2;
+      opacity:.75;
     }
 
     .wrap{
@@ -60,13 +71,34 @@
     }
 
     .panel{
-      width:min(820px, 100%);
+      width:min(860px, 100%);
       border-radius: var(--radius);
       background: rgba(15,20,38,.58);
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
       overflow:hidden;
+      position:relative;
+    }
+
+    /* Small rose seal (top-right) */
+    .seal{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:56px;
+      height:56px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.16);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+    }
+    .seal svg{
+      width:34px; height:34px;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.25));
     }
 
     .top{
@@ -81,7 +113,7 @@
       align-items:center;
       gap:10px;
       color: var(--accent2);
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.2px;
     }
     .dot{
@@ -90,6 +122,7 @@
       box-shadow: 0 0 18px rgba(255,77,125,.85);
     }
 
+    /* Photo strip */
     .strip{
       padding: 0 18px 18px;
       display:flex;
@@ -100,18 +133,26 @@
     .strip::-webkit-scrollbar{display:none}
     .polaroid{
       flex:0 0 auto;
-      width: 130px;
-      height: 165px;
+      width: 132px;
+      height: 168px;
       background: rgba(255,255,255,.92);
       border-radius: 14px;
       box-shadow: 0 16px 30px rgba(0,0,0,.25);
       padding: 10px;
       transform: rotate(var(--rot));
       border: 1px solid rgba(0,0,0,.08);
+      position:relative;
+      overflow:hidden;
+    }
+    .polaroid::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(220px 120px at 20% 10%, rgba(255,255,255,.35), transparent 55%);
+      pointer-events:none;
     }
     .polaroid img{
       width:100%;
-      height:115px;
+      height:116px;
       object-fit:cover;
       border-radius: 10px;
       display:block;
@@ -122,12 +163,14 @@
       font-size:11px;
       color:#222;
       opacity:.72;
-      font-weight:600;
+      font-weight:700;
       text-align:center;
+      letter-spacing:.2px;
     }
 
+    /* Letter */
     .stage{
-      padding: 0 18px 22px;
+      padding: 0 18px 24px;
       display:grid;
       gap:14px;
     }
@@ -139,7 +182,30 @@
       box-shadow: 0 18px 55px rgba(0,0,0,.35);
       border: 1px solid rgba(0,0,0,.08);
       padding: 26px 22px;
+      position:relative;
+      overflow:hidden;
     }
+    /* Decorative side line */
+    .letter::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:6px;
+      background: linear-gradient(180deg, rgba(255,77,125,.95), rgba(243,215,164,.85));
+      opacity:.9;
+    }
+    /* Subtle rose watermark */
+    .watermark{
+      position:absolute;
+      right:-30px;
+      top:-18px;
+      width:180px;
+      height:180px;
+      opacity:.12;
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+
     .letter p{
       margin: 0 0 12px;
       line-height: 1.6;
@@ -152,11 +218,18 @@
       font-size: 13px;
       margin-top: 14px;
     }
+    .sig{
+      margin-top: 14px;
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#111;
+    }
 
     @media (max-width:520px){
       .polaroid{width:118px; height:154px}
       .polaroid img{height:105px}
       .letter{padding:22px 18px}
+      .seal{top:12px; right:12px; width:52px; height:52px}
     }
   </style>
 </head>
@@ -165,23 +238,56 @@
   <div class="bg"></div>
   <div class="bgPhoto" id="bgPhoto"></div>
   <div class="vignette"></div>
+  <canvas id="petals"></canvas>
 
   <div class="wrap">
     <div class="panel">
-      <div class="top">
-        <div class="badge"><span class="dot"></span> Para Melisa</div>
+      <!-- Rose seal -->
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <defs>
+            <radialGradient id="rg" cx="40%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#ffd1dc"/>
+              <stop offset="55%" stop-color="#ff4d7d"/>
+              <stop offset="100%" stop-color="#b31243"/>
+            </radialGradient>
+            <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3cffb3"/>
+              <stop offset="100%" stop-color="#0ea36a"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 10c-7 0-13 5-13 12 0 4 2 7 5 9-6 1-10 5-10 12 0 9 8 16 18 16s18-7 18-16c0-7-4-11-10-12 3-2 5-5 5-9 0-7-6-12-13-12z" fill="url(#rg)"/>
+          <path d="M31 38c-3 9-1 16 1 19" stroke="url(#lg)" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
       </div>
 
+      <div class="top">
+        <div class="badge"><span class="dot"></span> Para Melissa</div>
+      </div>
+
+      <!-- Fotos en la RAÍZ del repo -->
       <div class="strip">
-        <div class="polaroid" style="--rot:-2deg"><img src="fotos/01.jpg" alt="Foto 1"><div class="cap">nosotros</div></div>
-        <div class="polaroid" style="--rot:1.5deg"><img src="fotos/02.jpg" alt="Foto 2"><div class="cap">nosotros</div></div>
-        <div class="polaroid" style="--rot:-1deg"><img src="fotos/03.jpg" alt="Foto 3"><div class="cap">nosotros</div></div>
-        <div class="polaroid" style="--rot:2deg"><img src="fotos/04.jpg" alt="Foto 4"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:-2deg"><img src="01.jpg" alt="Foto 1"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:1.5deg"><img src="02.jpg" alt="Foto 2"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:-1deg"><img src="03.jpg" alt="Foto 3"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:2deg"><img src="04.jpg" alt="Foto 4"><div class="cap">nosotros</div></div>
       </div>
 
       <div class="stage">
         <div class="letter">
-          <p><strong>Melisa,</strong></p>
+          <!-- watermark rose -->
+          <svg class="watermark" viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <radialGradient id="wm" cx="40%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="#ff4d7d"/>
+                <stop offset="100%" stop-color="#b31243"/>
+              </radialGradient>
+            </defs>
+            <path d="M100 40c-18 0-34 12-34 30 0 10 5 18 12 23-14 2-26 12-26 28 0 22 20 39 48 39s48-17 48-39c0-16-12-26-26-28 7-5 12-13 12-23 0-18-16-30-34-30z"
+                  fill="url(#wm)"/>
+          </svg>
+
+          <p><strong>Melissa,</strong></p>
 
           <p>No se me habría pasado por la cabeza dejarte sin un detalle, aunque sea sencillo como esta carta. No para decir palabras bonitas sin más, sino para decirte algo claro.</p>
 
@@ -202,8 +308,9 @@
   </div>
 
   <script>
+    // Fondo con blur usando la primera imagen (en la raíz)
     const bgEl = document.getElementById('bgPhoto');
-    bgEl.style.backgroundImage = "url('fotos/01.jpg')";
+    bgEl.style.backgroundImage = "url('01.jpg')";
 
     // Parallax suave
     let target = 0, current = 0;
@@ -221,6 +328,62 @@
       requestAnimationFrame(raf);
     }
     raf();
+
+    // Petals (suave y elegante)
+    const canvas = document.getElementById('petals');
+    const ctx = canvas.getContext('2d');
+    let W, H, petals = [], rafId;
+
+    function resize(){
+      W = canvas.width = window.innerWidth * devicePixelRatio;
+      H = canvas.height = window.innerHeight * devicePixelRatio;
+    }
+    window.addEventListener('resize', resize);
+
+    function makePetal(){
+      const r = (Math.random()*6 + 3) * devicePixelRatio;
+      return {
+        x: Math.random()*W,
+        y: -30*devicePixelRatio,
+        vx: (Math.random()*0.6 - 0.3) * devicePixelRatio,
+        vy: (Math.random()*1.2 + 0.8) * devicePixelRatio,
+        r,
+        a: Math.random()*Math.PI*2,
+        va: (Math.random()*0.03 - 0.015),
+        o: Math.random()*0.22 + 0.12
+      };
+    }
+
+    function drawPetal(p){
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a);
+      ctx.globalAlpha = p.o;
+      ctx.beginPath();
+      ctx.moveTo(0, -p.r);
+      ctx.quadraticCurveTo(p.r, 0, 0, p.r);
+      ctx.quadraticCurveTo(-p.r, 0, 0, -p.r);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255, 209, 220, 1)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      if(petals.length < 60) petals.push(makePetal());
+      for(const p of petals){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.a += p.va;
+        drawPetal(p);
+      }
+      petals = petals.filter(p => p.y < H + 60*devicePixelRatio);
+      rafId = requestAnimationFrame(loop);
+    }
+
+    resize();
+    loop();
   </script>
 </body>
 </html>
