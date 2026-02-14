@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Melisa</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#2b0f2a;
+      --paper:#f6f1e7;
+      --ink:#1a1a1a;
+      --muted:#aab3c7;
+      --accent:#ff4d7d;
+      --accent2:#ffd1dc;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:#fff;
+      background: linear-gradient(140deg, var(--bg1), var(--bg2));
+      overflow:auto;
+    }
+
+    .bg{
+      position:fixed; inset:0;
+      background:
+        radial-gradient(1200px 800px at 30% 20%, rgba(255,77,125,.20), transparent 55%),
+        radial-gradient(1000px 700px at 70% 30%, rgba(255,209,220,.14), transparent 60%),
+        linear-gradient(140deg, var(--bg1), var(--bg2));
+      z-index:-3;
+    }
+    .bgPhoto{
+      position:fixed; inset:-20px;
+      background-size:cover;
+      background-position:center;
+      filter: blur(18px) saturate(1.15) contrast(1.05);
+      transform: translateY(0px) scale(1.08);
+      opacity:.34;
+      z-index:-4;
+      will-change: transform;
+    }
+    .vignette{
+      position:fixed; inset:0;
+      background: radial-gradient(1200px 900px at 50% 20%, rgba(255,255,255,.08), transparent 60%),
+                  radial-gradient(1000px 800px at 50% 90%, rgba(0,0,0,.50), transparent 60%);
+      z-index:-2;
+      pointer-events:none;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .panel{
+      width:min(820px, 100%);
+      border-radius: var(--radius);
+      background: rgba(15,20,38,.58);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .top{
+      padding:18px 18px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color: var(--accent2);
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(255,77,125,.85);
+    }
+
+    .strip{
+      padding: 0 18px 18px;
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      scrollbar-width: none;
+    }
+    .strip::-webkit-scrollbar{display:none}
+    .polaroid{
+      flex:0 0 auto;
+      width: 130px;
+      height: 165px;
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      box-shadow: 0 16px 30px rgba(0,0,0,.25);
+      padding: 10px;
+      transform: rotate(var(--rot));
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .polaroid img{
+      width:100%;
+      height:115px;
+      object-fit:cover;
+      border-radius: 10px;
+      display:block;
+      filter: contrast(1.02) saturate(1.06);
+    }
+    .polaroid .cap{
+      margin-top:8px;
+      font-size:11px;
+      color:#222;
+      opacity:.72;
+      font-weight:600;
+      text-align:center;
+    }
+
+    .stage{
+      padding: 0 18px 22px;
+      display:grid;
+      gap:14px;
+    }
+    .letter{
+      width:100%;
+      background: linear-gradient(180deg, #fff, var(--paper));
+      color: var(--ink);
+      border-radius: 18px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 26px 22px;
+    }
+    .letter p{
+      margin: 0 0 12px;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .letter p:last-of-type{margin-bottom:0}
+    .letter .small{
+      color:#444;
+      opacity:.85;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+
+    @media (max-width:520px){
+      .polaroid{width:118px; height:154px}
+      .polaroid img{height:105px}
+      .letter{padding:22px 18px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+  <div class="bgPhoto" id="bgPhoto"></div>
+  <div class="vignette"></div>
+
+  <div class="wrap">
+    <div class="panel">
+      <div class="top">
+        <div class="badge"><span class="dot"></span> Para Melisa</div>
+      </div>
+
+      <div class="strip">
+        <div class="polaroid" style="--rot:-2deg"><img src="fotos/01.jpg" alt="Foto 1"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:1.5deg"><img src="fotos/02.jpg" alt="Foto 2"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:-1deg"><img src="fotos/03.jpg" alt="Foto 3"><div class="cap">nosotros</div></div>
+        <div class="polaroid" style="--rot:2deg"><img src="fotos/04.jpg" alt="Foto 4"><div class="cap">nosotros</div></div>
+      </div>
+
+      <div class="stage">
+        <div class="letter">
+          <p><strong>Melisa,</strong></p>
+
+          <p>No se me habría pasado por la cabeza dejarte sin un detalle, aunque sea sencillo como esta carta. No para decir palabras bonitas sin más, sino para decirte algo claro.</p>
+
+          <p>Contigo la vida se siente más alegre, con más colores. Tu forma de querer, de estar y de cuidar los pequeños gestos le da sentido a cosas que antes pasaban desapercibidas. A tu lado he entendido que no todo es orden o lógica, que el cariño, la presencia y lo que se demuestra cada día también importan, y mucho.</p>
+
+          <p>Contigo he aprendido a amar de verdad: no solo a decirlo, sino a demostrarlo en lo cotidiano, en la constancia y en estar cuando toca estar. Eso es algo que valoro y que no doy por hecho.</p>
+
+          <p><strong>Quiero estar contigo.</strong> Me gusta pensar en verte después del trabajo, en quedar a cenar, en compartir cualquier plan contigo. No por una fecha concreta, sino porque contigo cada día tiene algo que merece celebrarse.</p>
+
+          <p>Eso es lo que tengo claro hoy.</p>
+
+          <p>Feliz San Valentín.<br/>Te quiero.</p>
+
+          <p class="small">(Hecho con cariño.)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const bgEl = document.getElementById('bgPhoto');
+    bgEl.style.backgroundImage = "url('fotos/01.jpg')";
+
+    // Parallax suave
+    let target = 0, current = 0;
+    function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+    window.addEventListener('scroll', () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      const p = max > 0 ? (window.scrollY / max) : 0;
+      target = clamp(p * 18, 0, 18);
+    }, { passive: true });
+
+    function raf(){
+      current += (target - current) * 0.08;
+      bgEl.style.transform = `translateY(${current}px) scale(1.08)`;
+      requestAnimationFrame(raf);
+    }
+    raf();
+  </script>
+</body>
+</html>
