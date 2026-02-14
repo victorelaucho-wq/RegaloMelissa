@@ -2,10 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Para Melissa</title>
   <style>
     :root{
+      --fontTitle: "Playfair Display", ui-serif, Georgia, serif;
+      --fontBody: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       --bg1:#0b1020;
       --bg2:#2b0f2a;
       --paper:#f6f1e7;
@@ -20,6 +25,7 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
+      font-family: var(--fontBody);
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       color:#fff;
@@ -231,6 +237,30 @@
       .letter{padding:22px 18px}
       .seal{top:12px; right:12px; width:52px; height:52px}
     }
+
+    .badge{
+  font-family: var(--fontTitle);
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 20px;
+}
+
+.letter{
+  font-family: var(--fontBody);
+}
+
+.letter p strong{
+  font-family: var(--fontTitle);
+  font-weight: 700;
+  font-size: 20px;
+  color:#111;
+}
+
+.letter p{
+  font-size: 16.5px;
+  line-height: 1.75;
+}
+
   </style>
 </head>
 
